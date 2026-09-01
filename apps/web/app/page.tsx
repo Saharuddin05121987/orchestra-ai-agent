@@ -87,9 +87,9 @@ export default function CommandCenter() {
 
           <div className="top-bar-right">
             <div className="user-profile-badge">
-              <div className="user-avatar">SC</div>
+              <div className="user-avatar">S</div>
               <div className="user-info">
-                <span className="user-name">Saurav Chan</span>
+                <span className="user-name">Sahar</span>
                 <span className="user-role">Product Admin</span>
               </div>
             </div>
