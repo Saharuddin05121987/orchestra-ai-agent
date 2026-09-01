@@ -44,7 +44,7 @@ export default function CommandCenter() {
       <aside className="sidebar">
         <div className="brand-header">
           <div className="brand-icon">⚡</div>
-          <span className="brand-name">AetherOps</span>
+          <span className="brand-name">SaharOps AI</span>
         </div>
 
         <nav className="sidebar-nav">
