@@ -742,7 +742,7 @@ export default function CommandCenter() {
               <div style={{ background: "rgba(5, 7, 14, 0.95)", border: "1px solid var(--border-highlight)", borderRadius: "14px", padding: "1.5rem", marginTop: "1rem" }}>
                 <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "center" }}>
                   {/* Layer 1: USER / ADMIN */}
-                  <div style={{ background: "linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(15, 23, 42, 0.9))", border: "1px solid var(--primary)", borderRadius: "10px", padding: "0.75rem 2rem", textCenter: "center", width: "100%", maxWidth: "320px", textAlign: "center" }}>
+                  <div style={{ background: "linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(15, 23, 42, 0.9))", border: "1px solid var(--primary)", borderRadius: "10px", padding: "0.75rem 2rem", width: "100%", maxWidth: "320px", textAlign: "center" }}>
                     <strong style={{ color: "#fff", fontSize: "0.9rem" }}>👤 USER / ADMIN</strong>
                     <div style={{ fontSize: "0.75rem", color: "var(--text-secondary)", marginTop: "0.1rem" }}>Web / Mobile / API Clients</div>
                   </div>
