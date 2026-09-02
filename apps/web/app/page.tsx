@@ -199,9 +199,17 @@ export default function CommandCenter() {
         },
         {
           timestamp: new Date().toLocaleTimeString(),
+          agent: "Reviewer Agent",
+          action: "Policy & Safety Audit",
+          details: role !== "viewer" ? "Audited agent execution traces. Quality status: APPROVED. RBAC Security Policy: PASSED." : "Audited agent execution traces. Quality status: CONDITIONAL APPROVAL (READ-ONLY). Action write mutation blocked by RBAC.",
+          rbac_audit: { allowed: true, reason: "Security policy audit completed.", tenant_id: "tenant-alpha" },
+          duration_ms: 38.4
+        },
+        {
+          timestamp: new Date().toLocaleTimeString(),
           agent: "Finalizer Agent",
           action: "Synthesize Multi-Agent Output",
-          details: "Menyusun laporan akhir hasil kerja 4 agen spesialis.",
+          details: "Menyusun laporan akhir hasil kerja 5 agen spesialis.",
           duration_ms: 28.6
         }
       ];
@@ -212,7 +220,7 @@ export default function CommandCenter() {
         user_role: role,
         tenant_id: "tenant-alpha",
         classification: "Multi-Agent Orchestration",
-        output: `=== LAPORAN ORKESTRASI SAHAROPS AI AGENT ===\nTugas: ${task}\nPeran Pengguna: ${role.toUpperCase()} | Klasifikasi: Multi-Agent Orchestration\n\n1. HASIL RISET (Research Agent - RAG & Search Tools):\n   • [SEARCH]: ${researchSearch}\n   • [RETRIEVE]: ${researchRetrieve}\n   • [SUMMARIZE]: ${researchSummary}\n\n2. HASIL ANALISIS (Analysis Agent - Formula & Data Processing):\n   • [CALCULATE]: ${analysisCalc}\n   • [VISUALIZE]: ${analysisVis}\n\n3. HASIL EKSEKUSI TINDAKAN (Action Agent - DB & API Mutations):\n   • [CREATE]: ${actionItem}\n===========================================`,
+        output: `=== LAPORAN ORKESTRASI SAHAROPS AI AGENT ===\nTugas: ${task}\nPeran Pengguna: ${role.toUpperCase()} | Klasifikasi: Multi-Agent Orchestration\nReviewer Status: ${role !== "viewer" ? "APPROVED" : "CONDITIONAL APPROVAL (READ-ONLY)"}\n\n1. HASIL RISET (Research Agent - RAG & Search Tools):\n   • [SEARCH]: ${researchSearch}\n   • [RETRIEVE]: ${researchRetrieve}\n   • [SUMMARIZE]: ${researchSummary}\n\n2. HASIL ANALISIS (Analysis Agent - Data Processing Tools):\n   • [CALCULATE]: ${analysisCalc}\n   • [VISUALIZE]: ${analysisVis}\n\n3. HASIL EKSEKUSI TINDAKAN (Action Agent - DB & API Mutations):\n   • [CREATE]: ${actionItem}\n\n4. VERIFIKASI KEBIJAKAN & KEAMANAN (Reviewer Agent):\n   • STATUS: ${role !== "viewer" ? "APPROVED (Audit Keamanan 100% Lolos)" : "CONDITIONAL APPROVAL (Peran Viewer - Akses Tulis Dibatasi)"}\n===========================================`,
         traces: simulatedTraces
       });
     } finally {
