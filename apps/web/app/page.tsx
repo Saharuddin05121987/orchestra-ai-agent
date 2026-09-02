@@ -3,13 +3,87 @@
 import { useState } from "react";
 
 export default function CommandCenter() {
+  const [lang, setLang] = useState<"ID" | "EN">("ID");
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"overview" | "workflows" | "agents" | "analytics" | "approvals" | "settings">("overview");
   const [consoleOpen, setConsoleOpen] = useState(false);
   const [apiUrl, setApiUrl] = useState(process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000");
-  const [task, setTask] = useState("Cari data keselamatan kerja, hitung skor risiko, dan buat tiket rekomendasi tindakan.");
+  const [task, setTask] = useState(lang === "ID" ? "Cari data keselamatan kerja, hitung skor risiko, dan buat tiket rekomendasi tindakan." : "Search safety data, calculate risk score, and generate action recommendation ticket.");
   const [role, setRole] = useState("admin");
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState<any>(null);
+
+  // Translations Dictionary
+  const t = {
+    ID: {
+      overview: "📊 Ringkasan",
+      workflows: "🔀 Alur Kerja",
+      agents: "🤖 Agen AI",
+      analytics: "📈 Analitik",
+      approvals: "✅ Persetujuan",
+      settings: "⚙️ Pengaturan",
+      openConsole: "Buka Konsol →",
+      searchPlaceholder: "Cari alur kerja, agen, persetujuan...",
+      headerTitle: "Pusat Kendali Alur Kerja AI",
+      headerDesc: "Pantau rute, kualitas, persetujuan, biaya, dan kesehatan agen dalam satu tempat.",
+      monthlySpend: "Pengeluaran Bulanan",
+      workflowHealth: "Kesehatan Alur Kerja",
+      approvalRate: "Tingkat Persetujuan",
+      activeAgents: "Agen Aktif",
+      vsLastWeek: "vs minggu lalu",
+      routingMap: "🔀 Peta Rute Alur Kerja",
+      live: "Langsung",
+      primaryPath: "Jalur utama (55%)",
+      secondaryPath: "Jalur sekunder (27%)",
+      fallbackPath: "Jalur alternatif (18%)",
+      approvalQueue: "📋 Antrean Persetujuan",
+      viewAll: "Lihat semua →",
+      costPulse: "📈 Denyut Biaya",
+      totalSpend: "Total pengeluaran",
+      agentHealth: "🩺 Kesehatan Agen",
+      systemAlerts: "⚠️ Peringatan Sistem",
+      deployTitle: "Terapkan Rute Cerdas",
+      deployDesc: "Optimalkan performa, biaya, dan keandalan dengan perutean cerdas.",
+      btnDeploy: "⚡ Terapkan Rute",
+      presetTask1: "Cari data keselamatan kerja, hitung skor risiko, dan buat tiket rekomendasi tindakan.",
+      presetTask2: "Review dokumen kontrak vendor agreement $120,000.",
+      presetBtn: "Jalankan Preset →"
+    },
+    EN: {
+      overview: "📊 Overview",
+      workflows: "🔀 Workflows",
+      agents: "🤖 Agents",
+      analytics: "📈 Analytics",
+      approvals: "✅ Approvals",
+      settings: "⚙️ Settings",
+      openConsole: "Open Console →",
+      searchPlaceholder: "Search workflows, agents, approvals...",
+      headerTitle: "AI Workflow Command Center",
+      headerDesc: "Monitor routing, quality, approvals, cost, and agent health in one place.",
+      monthlySpend: "Monthly Spend",
+      workflowHealth: "Workflow Health",
+      approvalRate: "Approval Rate",
+      activeAgents: "Active Agents",
+      vsLastWeek: "vs last week",
+      routingMap: "🔀 Workflow Routing Map",
+      live: "Live",
+      primaryPath: "Primary path (55%)",
+      secondaryPath: "Secondary path (27%)",
+      fallbackPath: "Fallback path (18%)",
+      approvalQueue: "📋 Approval Queue",
+      viewAll: "View all →",
+      costPulse: "📈 Cost Pulse",
+      totalSpend: "Total spend",
+      agentHealth: "🩺 Agent Health",
+      systemAlerts: "⚠️ System Alerts",
+      deployTitle: "Deploy Smarter Routes",
+      deployDesc: "Optimize performance, cost, and reliability with intelligent routing.",
+      btnDeploy: "⚡ Deploy Route",
+      presetTask1: "Search safety data, calculate risk score, and generate action recommendation ticket.",
+      presetTask2: "Review vendor agreement contract document $120,000.",
+      presetBtn: "Run Preset →"
+    }
+  }[lang];
 
   // Approval Queue State
   const [approvals, setApprovals] = useState([
@@ -110,7 +184,7 @@ export default function CommandCenter() {
   return (
     <div className="dashboard-layout">
       {/* Sidebar Navigation */}
-      <aside className="sidebar">
+      <aside className={`sidebar ${mobileNavOpen ? "open" : ""}`}>
         <div className="brand-header">
           <div className="brand-icon">⚡</div>
           <span className="brand-name">SaharOps AI</span>
@@ -119,39 +193,39 @@ export default function CommandCenter() {
         <nav className="sidebar-nav">
           <div
             className={`nav-link ${activeTab === "overview" ? "active" : ""}`}
-            onClick={() => setActiveTab("overview")}
+            onClick={() => { setActiveTab("overview"); setMobileNavOpen(false); }}
           >
-            📊 Overview
+            {t.overview}
           </div>
           <div
             className={`nav-link ${activeTab === "workflows" ? "active" : ""}`}
-            onClick={() => setActiveTab("workflows")}
+            onClick={() => { setActiveTab("workflows"); setMobileNavOpen(false); }}
           >
-            🔀 Workflows
+            {t.workflows}
           </div>
           <div
             className={`nav-link ${activeTab === "agents" ? "active" : ""}`}
-            onClick={() => setActiveTab("agents")}
+            onClick={() => { setActiveTab("agents"); setMobileNavOpen(false); }}
           >
-            🤖 Agents
+            {t.agents}
           </div>
           <div
             className={`nav-link ${activeTab === "analytics" ? "active" : ""}`}
-            onClick={() => setActiveTab("analytics")}
+            onClick={() => { setActiveTab("analytics"); setMobileNavOpen(false); }}
           >
-            📈 Analytics
+            {t.analytics}
           </div>
           <div
             className={`nav-link ${activeTab === "approvals" ? "active" : ""}`}
-            onClick={() => setActiveTab("approvals")}
+            onClick={() => { setActiveTab("approvals"); setMobileNavOpen(false); }}
           >
-            ✅ Approvals
+            {t.approvals}
           </div>
           <div
             className={`nav-link ${activeTab === "settings" ? "active" : ""}`}
-            onClick={() => setActiveTab("settings")}
+            onClick={() => { setActiveTab("settings"); setMobileNavOpen(false); }}
           >
-            ⚙️ Settings
+            {t.settings}
           </div>
         </nav>
 
@@ -175,16 +249,38 @@ export default function CommandCenter() {
       <main className="main-wrapper">
         {/* Top Command Bar */}
         <div className="top-bar">
-          <div className="search-box-container">
-            <span className="search-icon">🔍</span>
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Search workflows, agents, approvals..."
-            />
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <button className="hamburger-btn" onClick={() => setMobileNavOpen(!mobileNavOpen)}>
+              ☰
+            </button>
+
+            <div className="search-box-container">
+              <span className="search-icon">🔍</span>
+              <input
+                type="text"
+                className="search-input"
+                placeholder={t.searchPlaceholder}
+              />
+            </div>
           </div>
 
           <div className="top-bar-right">
+            {/* Language Switcher */}
+            <div className="lang-switcher-pill">
+              <button
+                className={`lang-btn ${lang === "ID" ? "active" : ""}`}
+                onClick={() => setLang("ID")}
+              >
+                🇮🇩 ID
+              </button>
+              <button
+                className={`lang-btn ${lang === "EN" ? "active" : ""}`}
+                onClick={() => setLang("EN")}
+              >
+                🇺🇸 EN
+              </button>
+            </div>
+
             <div className="user-profile-badge">
               <div className="user-avatar">S</div>
               <div className="user-info">
@@ -194,7 +290,7 @@ export default function CommandCenter() {
             </div>
 
             <button className="btn-console" onClick={() => setConsoleOpen(true)}>
-              Open Console →
+              {t.openConsole}
             </button>
           </div>
         </div>
@@ -203,41 +299,41 @@ export default function CommandCenter() {
         {activeTab === "overview" && (
           <>
             <div className="page-header">
-              <h1>AI Workflow Command Center</h1>
-              <p>Monitor routing, quality, approvals, cost, and agent health in one place.</p>
+              <h1>{t.headerTitle}</h1>
+              <p>{t.headerDesc}</p>
             </div>
 
             <div className="kpi-grid">
               <div className="kpi-card">
                 <div className="kpi-icon spend">💳</div>
                 <div className="kpi-body">
-                  <small>Monthly Spend</small>
+                  <small>{t.monthlySpend}</small>
                   <div className="kpi-value">$48,320</div>
-                  <div className="kpi-trend up">↑ 12.4% vs last week</div>
+                  <div className="kpi-trend up">↑ 12.4% {t.vsLastWeek}</div>
                 </div>
               </div>
               <div className="kpi-card">
                 <div className="kpi-icon health">📈</div>
                 <div className="kpi-body">
-                  <small>Workflow Health</small>
+                  <small>{t.workflowHealth}</small>
                   <div className="kpi-value">98.6%</div>
-                  <div className="kpi-trend up">↑ 2.3% vs last week</div>
+                  <div className="kpi-trend up">↑ 2.3% {t.vsLastWeek}</div>
                 </div>
               </div>
               <div className="kpi-card">
                 <div className="kpi-icon approval">🛡️</div>
                 <div className="kpi-body">
-                  <small>Approval Rate</small>
+                  <small>{t.approvalRate}</small>
                   <div className="kpi-value">94%</div>
-                  <div className="kpi-trend up">↑ 1.4% vs last week</div>
+                  <div className="kpi-trend up">↑ 1.4% {t.vsLastWeek}</div>
                 </div>
               </div>
               <div className="kpi-card">
                 <div className="kpi-icon agents">👥</div>
                 <div className="kpi-body">
-                  <small>Active Agents</small>
+                  <small>{t.activeAgents}</small>
                   <div className="kpi-value">18</div>
-                  <div className="kpi-trend up">↑ 2 vs last week</div>
+                  <div className="kpi-trend up">↑ 2 {t.vsLastWeek}</div>
                 </div>
               </div>
             </div>
@@ -245,9 +341,9 @@ export default function CommandCenter() {
             <div className="content-grid">
               <div className="routing-map-card">
                 <div className="card-header-row">
-                  <h3>🔀 Workflow routing map</h3>
+                  <h3>{t.routingMap}</h3>
                   <div className="status-indicator">
-                    <span className="status-dot"></span> Live
+                    <span className="status-dot"></span> {t.live}
                   </div>
                 </div>
 
@@ -298,17 +394,17 @@ export default function CommandCenter() {
                 </div>
 
                 <div className="routing-legend">
-                  <div className="legend-item"><span className="legend-dot primary"></span> Primary path (55%)</div>
-                  <div className="legend-item"><span className="legend-dot secondary"></span> Secondary path (27%)</div>
-                  <div className="legend-item"><span className="legend-dot fallback"></span> Fallback path (18%)</div>
+                  <div className="legend-item"><span className="legend-dot primary"></span> {t.primaryPath}</div>
+                  <div className="legend-item"><span className="legend-dot secondary"></span> {t.secondaryPath}</div>
+                  <div className="legend-item"><span className="legend-dot fallback"></span> {t.fallbackPath}</div>
                 </div>
               </div>
 
               <div className="right-column-cards">
                 <div className="queue-card">
                   <div className="card-header-row">
-                    <h3 style={{ fontSize: "0.95rem" }}>📋 Approval queue</h3>
-                    <small style={{ color: "var(--primary-cyan)", cursor: "pointer" }} onClick={() => setActiveTab("approvals")}>View all →</small>
+                    <h3 style={{ fontSize: "0.95rem" }}>{t.approvalQueue}</h3>
+                    <small style={{ color: "var(--primary-cyan)", cursor: "pointer" }} onClick={() => setActiveTab("approvals")}>{t.viewAll}</small>
                   </div>
 
                   <div className="queue-item-list">
@@ -329,11 +425,11 @@ export default function CommandCenter() {
 
                 <div className="cost-card">
                   <div className="card-header-row">
-                    <h3 style={{ fontSize: "0.95rem" }}>📈 Cost pulse</h3>
+                    <h3 style={{ fontSize: "0.95rem" }}>{t.costPulse}</h3>
                     <small style={{ color: "var(--text-muted)" }}>This month v</small>
                   </div>
                   <div style={{ fontSize: "1.2rem", fontWeight: "800", color: "#fff" }}>$48,320</div>
-                  <small style={{ color: "var(--text-muted)" }}>Total spend • May 29 ($3,840)</small>
+                  <small style={{ color: "var(--text-muted)" }}>{t.totalSpend} • May 29 ($3,840)</small>
                 </div>
               </div>
             </div>
@@ -341,8 +437,8 @@ export default function CommandCenter() {
             <div className="bottom-grid">
               <div className="bottom-card">
                 <div className="card-header-row">
-                  <h3 style={{ fontSize: "0.95rem" }}>🩺 Agent health</h3>
-                  <small style={{ color: "var(--primary-cyan)", cursor: "pointer" }} onClick={() => setActiveTab("agents")}>View all →</small>
+                  <h3 style={{ fontSize: "0.95rem" }}>{t.agentHealth}</h3>
+                  <small style={{ color: "var(--primary-cyan)", cursor: "pointer" }} onClick={() => setActiveTab("agents")}>{t.viewAll}</small>
                 </div>
 
                 <div className="agent-health-list">
@@ -369,8 +465,8 @@ export default function CommandCenter() {
 
               <div className="bottom-card">
                 <div className="card-header-row">
-                  <h3 style={{ fontSize: "0.95rem" }}>⚠️ System alerts</h3>
-                  <small style={{ color: "var(--primary-cyan)", cursor: "pointer" }}>View all →</small>
+                  <h3 style={{ fontSize: "0.95rem" }}>{t.systemAlerts}</h3>
+                  <small style={{ color: "var(--primary-cyan)", cursor: "pointer" }}>{t.viewAll}</small>
                 </div>
 
                 <div className="alerts-list">
@@ -407,7 +503,7 @@ export default function CommandCenter() {
                 <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>Planner → Research (RAG) → Analytic (Risk Index) → Action (DB Ticket)</p>
                 <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <span className="badge-live">ACTIVE</span>
-                  <button className="btn-deploy-route" onClick={() => { setTask("Analisis risiko K3 area proyek dan buat tiket perbaikan."); setConsoleOpen(true); }}>Run Preset →</button>
+                  <button className="btn-deploy-route" onClick={() => { setTask(t.presetTask1); setConsoleOpen(true); }}>{t.presetBtn}</button>
                 </div>
               </div>
               <div className="arch-agent-card">
@@ -415,7 +511,7 @@ export default function CommandCenter() {
                 <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>Planner → Doc Agent → Compliance Analyst → Approval Queue</p>
                 <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <span className="tool-pill">READY</span>
-                  <button className="btn-deploy-route" onClick={() => { setTask("Review dokumen kontrak vendor agreement $120,000."); setConsoleOpen(true); }}>Run Preset →</button>
+                  <button className="btn-deploy-route" onClick={() => { setTask(t.presetTask2); setConsoleOpen(true); }}>{t.presetBtn}</button>
                 </div>
               </div>
             </div>
@@ -567,10 +663,10 @@ export default function CommandCenter() {
 
         {/* Floating Glass 3D CTA Card (Bottom Right) */}
         <div className="deploy-cta-glass-card">
-          <h4>Deploy smarter routes</h4>
-          <p>Optimize performance, cost, and reliability with intelligent routing.</p>
+          <h4>{t.deployTitle}</h4>
+          <p>{t.deployDesc}</p>
           <button className="btn-deploy-route" onClick={() => setConsoleOpen(true)}>
-            ⚡ Deploy Route
+            {t.btnDeploy}
           </button>
         </div>
       </main>
