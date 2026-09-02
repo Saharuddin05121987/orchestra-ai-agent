@@ -745,17 +745,40 @@ export default function CommandCenter() {
                 {running ? "⚡ EXECUTING WORKFLOW GRAPH..." : "🚀 RUN WORKFLOW GRAPH"}
               </button>
 
-              {/* Traces Log */}
-              {result?.traces?.length > 0 && (
-                <div style={{ background: "rgba(5, 7, 14, 0.9)", padding: "1rem", borderRadius: "10px", maxHeight: "220px", overflowY: "auto" }}>
-                  <h4 style={{ fontSize: "0.85rem", color: "var(--primary-cyan)", marginBottom: "0.5rem" }}>📡 Live Observability Traces</h4>
-                  {result.traces.map((tr: any, idx: number) => (
-                    <div key={idx} style={{ fontSize: "0.78rem", borderBottom: "1px solid rgba(255,255,255,0.05)", padding: "0.35rem 0" }}>
-                      <span style={{ color: "var(--primary-purple)", fontWeight: 700 }}>[{tr.agent}]</span> {tr.action}: {tr.details} <small style={{ color: "var(--text-muted)" }}>({tr.duration_ms}ms)</small>
-                    </div>
-                  ))}
+              {/* Traces Log Panel - Always Open & Prominent */}
+              <div style={{ background: "rgba(5, 7, 14, 0.95)", border: "1px solid var(--primary-cyan)", padding: "1rem", borderRadius: "12px", boxShadow: "0 0 15px rgba(6, 182, 212, 0.15)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
+                  <h4 style={{ fontSize: "0.9rem", color: "var(--primary-cyan)", fontWeight: 700, display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    📡 Live Observability Traces
+                  </h4>
+                  <span className="tool-pill" style={{ color: "var(--accent-emerald)" }}>{result?.traces?.length || 0} TRACES RECORDED</span>
                 </div>
-              )}
+
+                {result?.traces?.length > 0 ? (
+                  <div style={{ maxHeight: "200px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+                    {result.traces.map((tr: any, idx: number) => (
+                      <div key={idx} style={{ fontSize: "0.78rem", background: "rgba(255,255,255,0.03)", borderLeft: "3px solid var(--primary-purple)", borderRadius: "4px", padding: "0.5rem 0.75rem" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.2rem" }}>
+                          <span style={{ color: "var(--primary-cyan)", fontWeight: 700 }}>[{tr.agent}]</span>
+                          <small style={{ color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>{tr.timestamp} • {tr.duration_ms}ms</small>
+                        </div>
+                        <div style={{ color: "#e2e8f0" }}>{tr.action}: {tr.details}</div>
+                        {tr.rbac_audit && (
+                          <div style={{ marginTop: "0.25rem" }}>
+                            <span className={`rbac-badge ${tr.rbac_audit.allowed ? "granted" : "denied"}`}>
+                              RBAC: {tr.rbac_audit.allowed ? "ACCESS GRANTED" : "ACCESS DENIED"} ({tr.rbac_audit.tenant_id})
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p style={{ color: "var(--text-muted)", fontSize: "0.8rem", margin: 0 }}>
+                    Belum ada log eksekusi. Klik tombol <strong>'🚀 RUN WORKFLOW GRAPH'</strong> di atas untuk memantau jejak eksekusi agen secara real-time.
+                  </p>
+                )}
+              </div>
 
               {/* Final Output */}
               {result?.output && (
