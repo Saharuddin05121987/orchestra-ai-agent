@@ -1199,7 +1199,7 @@ export default function CommandCenter() {
               </div>
 
               <div>
-                <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight 700, display: "block", marginBottom: "0.4rem" }}>Permissions:</label>
+                <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight: 700, display: "block", marginBottom: "0.4rem" }}>Permissions:</label>
                 <div style={{ display: "flex", gap: "1rem" }}>
                   <label style={{ fontSize: "0.8rem", color: "#e2e8f0", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                     <input type="checkbox" checked={agentForm.read} onChange={(e) => setAgentForm({ ...agentForm, read: e.target.checked })} /> Read
