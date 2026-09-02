@@ -132,7 +132,14 @@ export default function CommandCenter() {
       let analysisVis = "";
       let actionItem = "";
 
-      if (taskLower.includes("kontrak") || taskLower.includes("vendor") || taskLower.includes("contract") || taskLower.includes("agreement") || taskLower.includes("120")) {
+      if (taskLower.includes("web") || taskLower.includes("app") || taskLower.includes("aplikasi") || taskLower.includes("website") || taskLower.includes("code") || taskLower.includes("coding")) {
+        researchSearch = `Meriset dependensi & pustaka modern (Next.js, FastAPI, PostgreSQL, TailwindCSS) untuk kebutuhan '${task.slice(0, 30)}...'.`;
+        researchRetrieve = "Mengambil cetak biru arsitektur aplikasi web 'STARTER-WEBAPP-ARCH' (Skor RAG: 99.6%).";
+        researchSummary = "Komponen UI terdefinisi: Navbar, Dashboard Grid, Form Input, REST API Routes, dan Skema Database.";
+        analysisCalc = "Kalkulasi Arsitektur Perangkat Lunak: Est. waktu kompilasi 1.2s, Kapasitas Beban: 10,000 req/sec, Risk Index: 1.2/10 (Stabil).";
+        analysisVis = "Diagram Arsitektur Perangkat Lunak & Skema ERD Database berhasil dibuat.";
+        actionItem = role === "viewer" ? "AKSES DITOLAK (Mode Viewer)" : "Membuat repositori kode 'webapp-project-repo' dan menyusun file konfigurasi (package.json, Dockerfile, main.py).";
+      } else if (taskLower.includes("kontrak") || taskLower.includes("vendor") || taskLower.includes("contract") || taskLower.includes("agreement") || taskLower.includes("120")) {
         researchSearch = "Menemukan 4 klausul legal relevan pada basis data kontrak vendor (Nilai: $120,000).";
         researchRetrieve = "Mengekstrak dokumen hukum 'CONTRACT-VND-120K.pdf' dengan kecocokan RAG 99.2%.";
         researchSummary = "Klausul utama: Pembayaran 30-hari NET, batasan liabilitas $150K, pemberitahuan penghentian 60 hari.";
