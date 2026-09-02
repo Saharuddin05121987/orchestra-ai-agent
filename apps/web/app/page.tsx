@@ -822,29 +822,28 @@ export default function CommandCenter() {
                 </div>
                 <div className="arch-agent-card active">
                   <div className="agent-title" style={{ color: "var(--primary-cyan)" }}>🔍 Research Agent</div>
-                  <div className="agent-subtitle">RAG & Web Search</div>
+                  <div className="agent-subtitle">Web Context & Vector RAG</div>
                   <div className="tool-pills">
-                    <span className="tool-pill">search</span>
-                    <span className="tool-pill">retrieve</span>
-                    <span className="tool-pill">summarize</span>
+                    <span className="tool-pill">🌐 Web Search</span>
+                    <span className="tool-pill">📄 Documents</span>
                   </div>
                 </div>
                 <div className="arch-agent-card active">
                   <div className="agent-title" style={{ color: "var(--primary-purple)" }}>📊 Analysis Agent</div>
-                  <div className="agent-subtitle">Data & Formula Processing</div>
+                  <div className="agent-subtitle">Data & Code Processing</div>
                   <div className="tool-pills">
-                    <span className="tool-pill">calculate</span>
-                    <span className="tool-pill">aggregate</span>
-                    <span className="tool-pill">visualize</span>
+                    <span className="tool-pill">📊 Excel</span>
+                    <span className="tool-pill">🐍 Python</span>
                   </div>
                 </div>
                 <div className="arch-agent-card active">
                   <div className="agent-title" style={{ color: "var(--accent-emerald)" }}>⚡ Action Agent</div>
                   <div className="agent-subtitle">DB & API Mutations</div>
                   <div className="tool-pills">
-                    <span className="tool-pill">create</span>
-                    <span className="tool-pill">update</span>
-                    <span className="tool-pill">delete</span>
+                    <span className="tool-pill">🗄 PostgreSQL</span>
+                    <span className="tool-pill">📧 Email</span>
+                    <span className="tool-pill">🔔 Notification</span>
+                    <span className="tool-pill">🌐 REST API</span>
                   </div>
                 </div>
 

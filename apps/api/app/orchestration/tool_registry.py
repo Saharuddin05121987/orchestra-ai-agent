@@ -8,65 +8,63 @@ from typing import Dict, Any, Callable
 
 # Tool Definitions
 TOOLS = {
-    # Research Agent Tools
-    "search": {
-        "name": "search",
+    # 8 Core Enterprise Ecosystem Tools
+    "web_search": {
+        "name": "web_search",
         "category": "research",
-        "description": "Perform web or vector database search for domain information",
+        "icon": "🌐",
+        "description": "Perform live internet search and web context extraction",
         "required_permission": "read"
     },
-    "retrieve": {
-        "name": "retrieve",
+    "documents": {
+        "name": "documents",
         "category": "research",
-        "description": "Retrieve specific context documents from RAG knowledge base",
+        "icon": "📄",
+        "description": "Parse PDF, DOCX, and TXT documents for RAG Knowledge Indexing",
         "required_permission": "read"
     },
-    "summarize": {
-        "name": "summarize",
-        "category": "research",
-        "description": "Summarize extracted text, research reports, or data blobs",
-        "required_permission": "read"
-    },
-    
-    # Analysis Agent Tools
-    "calculate": {
-        "name": "calculate",
+    "excel": {
+        "name": "excel",
         "category": "analysis",
-        "description": "Perform mathematical, statistical, or financial calculations",
+        "icon": "📊",
+        "description": "Process XLSX spreadsheets and CSV tabular dataset calculations",
         "required_permission": "read"
     },
-    "aggregate": {
-        "name": "aggregate",
+    "python": {
+        "name": "python",
         "category": "analysis",
-        "description": "Aggregate time-series, risk data, or performance metrics",
-        "required_permission": "read"
+        "icon": "🐍",
+        "description": "Execute dynamic Python code for data analysis and math modeling",
+        "required_permission": "analyze"
     },
-    "visualize": {
-        "name": "visualize",
-        "category": "analysis",
-        "description": "Generate charts, metric cards, or visual data plots",
-        "required_permission": "read"
-    },
-    
-    # Action Agent Tools
-    "create": {
-        "name": "create",
+    "postgresql": {
+        "name": "postgresql",
         "category": "action",
-        "description": "Create new database entries, tickets, or workflow tasks",
+        "icon": "🗄",
+        "description": "Execute PostgreSQL queries, table mutations, and transaction commits",
         "required_permission": "write"
     },
-    "update": {
-        "name": "update",
+    "email": {
+        "name": "email",
         "category": "action",
-        "description": "Update existing records, status tags, or configurations",
+        "icon": "📧",
+        "description": "Dispatch automated email notifications and PDF audit reports",
         "required_permission": "write"
     },
-    "delete": {
-        "name": "delete",
+    "notification": {
+        "name": "notification",
         "category": "action",
-        "description": "Delete specified records or purge transient caches",
-        "required_permission": "admin"
-    }
+        "icon": "🔔",
+        "description": "Trigger real-time push alerts and system observability events",
+        "required_permission": "write"
+    },
+    "rest_api": {
+        "name": "rest_api",
+        "category": "action",
+        "icon": "🌐",
+        "description": "Integrate third-party REST APIs and trigger webhook endpoints",
+        "required_permission": "write"
+    },
 }
 
 class ToolRegistry:
