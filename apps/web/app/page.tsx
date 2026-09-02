@@ -13,6 +13,60 @@ export default function CommandCenter() {
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState<any>(null);
 
+  // Custom Agent Management State
+  const [createAgentModalOpen, setCreateAgentModalOpen] = useState(false);
+  const [customAgents, setCustomAgents] = useState([
+    {
+      id: "hse-researcher",
+      name: "HSE Researcher",
+      role: "Researcher",
+      model: "GPT-4o",
+      temperature: 0.2,
+      tools: { webSearch: true, knowledgeBase: true, email: false, database: false },
+      permissions: { read: true, write: false, execute: false },
+      status: "ACTIVE"
+    }
+  ]);
+
+  const [agentForm, setAgentForm] = useState({
+    name: "HSE Researcher",
+    role: "Researcher",
+    model: "GPT-4o",
+    temperature: 0.2,
+    webSearch: true,
+    knowledgeBase: true,
+    email: false,
+    database: false,
+    read: true,
+    write: false,
+    execute: false
+  });
+
+  function handleCreateAgent() {
+    if (!agentForm.name.trim()) return;
+    const newAg = {
+      id: `agent-${Date.now()}`,
+      name: agentForm.name,
+      role: agentForm.role,
+      model: agentForm.model,
+      temperature: agentForm.temperature,
+      tools: {
+        webSearch: agentForm.webSearch,
+        knowledgeBase: agentForm.knowledgeBase,
+        email: agentForm.email,
+        database: agentForm.database
+      },
+      permissions: {
+        read: agentForm.read,
+        write: agentForm.write,
+        execute: agentForm.execute
+      },
+      status: "ACTIVE"
+    };
+    setCustomAgents(prev => [newAg, ...prev]);
+    setCreateAgentModalOpen(false);
+  }
+
   // Translations Dictionary
   const t = {
     ID: {
@@ -733,8 +787,10 @@ export default function CommandCenter() {
             {/* Agent Details & Tool Catalog */}
             <div className="arch-panel">
               <div className="arch-header">
-                <h3>🤖 Active Agents Catalog</h3>
+                <h3>🤖 Active Agents Catalog & Custom Registered Agents</h3>
+                <button className="btn-console" onClick={() => setCreateAgentModalOpen(true)}>+ Create Agent</button>
               </div>
+
               <div className="arch-agents-grid" style={{ marginTop: "1rem" }}>
                 <div className="arch-agent-card active">
                   <div className="agent-title" style={{ color: "var(--primary)" }}>🧠 Coordinator Agent</div>
@@ -768,6 +824,36 @@ export default function CommandCenter() {
                     <span className="tool-pill">delete</span>
                   </div>
                 </div>
+
+                {/* Custom Agents Rendered dynamically (e.g. HSE Researcher) */}
+                {customAgents.map(ag => (
+                  <div className="arch-agent-card active" key={ag.id} style={{ border: "1px solid var(--primary-cyan)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div className="agent-title" style={{ color: "var(--primary-cyan)" }}>🛡️ {ag.name}</div>
+                      <span className="badge-live">{ag.status}</span>
+                    </div>
+                    <div className="agent-subtitle">Role: {ag.role} • Model: {ag.model} (Temp: {ag.temperature})</div>
+
+                    <div style={{ marginTop: "0.5rem" }}>
+                      <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>Tools Enabled:</div>
+                      <div className="tool-pills" style={{ marginTop: "0.2rem" }}>
+                        {ag.tools.webSearch && <span className="tool-pill">☑ Web Search</span>}
+                        {ag.tools.knowledgeBase && <span className="tool-pill">☑ Knowledge Base</span>}
+                        {ag.tools.email && <span className="tool-pill">☑ Email</span>}
+                        {ag.tools.database && <span className="tool-pill">☑ Database</span>}
+                      </div>
+                    </div>
+
+                    <div style={{ marginTop: "0.5rem" }}>
+                      <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>Permissions:</div>
+                      <div style={{ fontSize: "0.75rem", color: "var(--text-secondary)", marginTop: "0.1rem" }}>
+                        {ag.permissions.read && "☑ Read "}
+                        {ag.permissions.write && "☑ Write "}
+                        {ag.permissions.execute && "☑ Execute"}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -962,6 +1048,116 @@ export default function CommandCenter() {
                   </pre>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create Custom Agent Modal */}
+      {createAgentModalOpen && (
+        <div className="modal-overlay">
+          <div className="console-modal-content" style={{ maxWidth: "520px" }}>
+            <div className="modal-header">
+              <h3>🤖 + Create New AI Agent</h3>
+              <button className="btn-close" onClick={() => setCreateAgentModalOpen(false)}>✕</button>
+            </div>
+
+            <div className="modal-body" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              <div>
+                <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight: 700 }}>Agent Name:</label>
+                <input
+                  type="text"
+                  className="search-input"
+                  style={{ width: "100%", paddingLeft: "1rem", marginTop: "0.3rem" }}
+                  value={agentForm.name}
+                  onChange={(e) => setAgentForm({ ...agentForm, name: e.target.value })}
+                  placeholder="e.g. HSE Researcher, Finance Auditor..."
+                />
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                <div>
+                  <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight: 700 }}>Role:</label>
+                  <select
+                    className="search-input"
+                    style={{ width: "100%", paddingLeft: "0.75rem", marginTop: "0.3rem", background: "rgba(15,23,42,0.9)", color: "#fff" }}
+                    value={agentForm.role}
+                    onChange={(e) => setAgentForm({ ...agentForm, role: e.target.value })}
+                  >
+                    <option value="Researcher">Researcher</option>
+                    <option value="Analyst">Analyst</option>
+                    <option value="Executor">Executor</option>
+                    <option value="Reviewer">Reviewer</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight: 700 }}>Model:</label>
+                  <select
+                    className="search-input"
+                    style={{ width: "100%", paddingLeft: "0.75rem", marginTop: "0.3rem", background: "rgba(15,23,42,0.9)", color: "#fff" }}
+                    value={agentForm.model}
+                    onChange={(e) => setAgentForm({ ...agentForm, model: e.target.value })}
+                  >
+                    <option value="GPT-4o">GPT-4o (Default)</option>
+                    <option value="GPT-3.5-Turbo">GPT-3.5-Turbo</option>
+                    <option value="Claude-3.5-Sonnet">Claude 3.5 Sonnet</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight: 700, display: "flex", justifyContent: "space-between" }}>
+                  <span>Temperature:</span>
+                  <span style={{ color: "var(--primary-cyan)" }}>{agentForm.temperature}</span>
+                </label>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  style={{ width: "100%", marginTop: "0.4rem" }}
+                  value={agentForm.temperature}
+                  onChange={(e) => setAgentForm({ ...agentForm, temperature: parseFloat(e.target.value) })}
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight: 700, display: "block", marginBottom: "0.4rem" }}>Tools Enabled:</label>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
+                  <label style={{ fontSize: "0.8rem", color: "#e2e8f0", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <input type="checkbox" checked={agentForm.webSearch} onChange={(e) => setAgentForm({ ...agentForm, webSearch: e.target.checked })} /> Web Search
+                  </label>
+                  <label style={{ fontSize: "0.8rem", color: "#e2e8f0", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <input type="checkbox" checked={agentForm.knowledgeBase} onChange={(e) => setAgentForm({ ...agentForm, knowledgeBase: e.target.checked })} /> Knowledge Base (RAG)
+                  </label>
+                  <label style={{ fontSize: "0.8rem", color: "#e2e8f0", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <input type="checkbox" checked={agentForm.email} onChange={(e) => setAgentForm({ ...agentForm, email: e.target.checked })} /> Email
+                  </label>
+                  <label style={{ fontSize: "0.8rem", color: "#e2e8f0", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <input type="checkbox" checked={agentForm.database} onChange={(e) => setAgentForm({ ...agentForm, database: e.target.checked })} /> Database
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight 700, display: "block", marginBottom: "0.4rem" }}>Permissions:</label>
+                <div style={{ display: "flex", gap: "1rem" }}>
+                  <label style={{ fontSize: "0.8rem", color: "#e2e8f0", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <input type="checkbox" checked={agentForm.read} onChange={(e) => setAgentForm({ ...agentForm, read: e.target.checked })} /> Read
+                  </label>
+                  <label style={{ fontSize: "0.8rem", color: "#e2e8f0", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <input type="checkbox" checked={agentForm.write} onChange={(e) => setAgentForm({ ...agentForm, write: e.target.checked })} /> Write
+                  </label>
+                  <label style={{ fontSize: "0.8rem", color: "#e2e8f0", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <input type="checkbox" checked={agentForm.execute} onChange={(e) => setAgentForm({ ...agentForm, execute: e.target.checked })} /> Execute
+                  </label>
+                </div>
+              </div>
+
+              <button className="btn-console" style={{ width: "100%", justifyContent: "center", marginTop: "0.5rem" }} onClick={handleCreateAgent}>
+                ⚡ SAVE & REGISTER AGENT
+              </button>
             </div>
           </div>
         </div>
