@@ -531,26 +531,113 @@ export default function CommandCenter() {
 
         {/* TAB 2: WORKFLOWS */}
         {activeTab === "workflows" && (
-          <div className="arch-panel">
-            <div className="arch-header">
-              <h3>🔀 Active Workflow Pipelines</h3>
-              <button className="btn-console" onClick={() => setConsoleOpen(true)}>+ Run Custom Workflow</button>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginTop: "1rem" }}>
-              <div className="arch-agent-card active">
-                <h4 style={{ color: "#fff", marginBottom: "0.5rem" }}>🛡️ Safety Risk Analysis & Action Pipeline</h4>
-                <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>Planner → Research (RAG) → Analytic (Risk Index) → Action (DB Ticket)</p>
-                <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span className="badge-live">ACTIVE</span>
-                  <button className="btn-deploy-route" onClick={() => { setTask(t.presetTask1); setConsoleOpen(true); }}>{t.presetBtn}</button>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            {/* Visual Workflow Lifecycle Chart matching ASCII Diagram */}
+            <div className="arch-panel">
+              <div className="arch-header">
+                <h3>🔄 SaharOps AI Workflow Execution Lifecycle & Reviewer Decision Flow</h3>
+                <span className="badge-live">LANGGRAPH DRIVEN</span>
+              </div>
+
+              <div style={{ background: "rgba(5, 7, 14, 0.95)", border: "1px solid var(--border-highlight)", borderRadius: "14px", padding: "1.5rem", marginTop: "1rem" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "center" }}>
+                  {/* Step 1: LOGIN */}
+                  <div style={{ background: "linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(15, 23, 42, 0.9))", border: "1px solid var(--primary)", borderRadius: "10px", padding: "0.6rem 2rem", textAlign: "center", width: "100%", maxWidth: "260px" }}>
+                    <strong style={{ color: "#fff", fontSize: "0.85rem" }}>🔑 AUTHENTICATION / LOGIN</strong>
+                    <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>RBAC Role Access Selection</div>
+                  </div>
+                  <div style={{ color: "var(--primary-purple)", fontSize: "0.9rem" }}>↓</div>
+
+                  {/* Step 2: DASHBOARD */}
+                  <div style={{ background: "linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(15, 23, 42, 0.9))", border: "1px solid var(--primary-cyan)", borderRadius: "10px", padding: "0.6rem 2rem", textAlign: "center", width: "100%", maxWidth: "320px" }}>
+                    <strong style={{ color: "var(--primary-cyan)", fontSize: "0.85rem" }}>📊 SAHAROPS DASHBOARD</strong>
+                    <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>Overview Command Center</div>
+                  </div>
+                  <div style={{ color: "var(--primary-cyan)", fontSize: "0.9rem" }}>↓</div>
+
+                  {/* Step 3: AGENTS vs WORKFLOWS SPLIT */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", width: "100%", maxWidth: "550px" }}>
+                    <div style={{ background: "rgba(30, 41, 59, 0.6)", border: "1px solid var(--border-color)", borderRadius: "10px", padding: "0.75rem", textAlign: "center" }}>
+                      <strong style={{ color: "var(--primary-cyan)", fontSize: "0.85rem" }}>🤖 AGENTS CATALOG</strong>
+                      <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>Configure & View Tools</div>
+                    </div>
+                    <div style={{ background: "rgba(30, 41, 59, 0.6)", border: "1px solid var(--border-color)", borderRadius: "10px", padding: "0.75rem", textAlign: "center" }}>
+                      <strong style={{ color: "var(--primary-purple)", fontSize: "0.85rem" }}>🔀 WORKFLOWS (BUILDER & EXECUTION)</strong>
+                      <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>Custom Prompt & Presets</div>
+                    </div>
+                  </div>
+                  <div style={{ color: "var(--primary-purple)", fontSize: "0.9rem" }}>↓</div>
+
+                  {/* Step 4: LANGGRAPH ENGINE */}
+                  <div style={{ background: "linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(15, 23, 42, 0.95))", border: "1px solid var(--primary-purple)", borderRadius: "12px", padding: "0.85rem 2rem", textAlign: "center", width: "100%", maxWidth: "550px", boxShadow: "0 0 20px rgba(139, 92, 246, 0.2)" }}>
+                    <strong style={{ color: "#fff", fontSize: "0.95rem" }}>🧠 LANGGRAPH ENGINE</strong>
+                    <div style={{ fontSize: "0.75rem", color: "var(--text-secondary)", marginTop: "0.2rem" }}>
+                      Routing & Execution State Machine
+                    </div>
+                  </div>
+                  <div style={{ color: "var(--primary-purple)", fontSize: "0.9rem" }}>↓</div>
+
+                  {/* Step 5: SUB-AGENTS */}
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem", width: "100%" }}>
+                    <div className="arch-agent-card active" style={{ textAlign: "center", padding: "0.75rem" }}>
+                      <div className="agent-title" style={{ color: "var(--primary-cyan)", fontSize: "0.85rem" }}>🔍 RESEARCHER</div>
+                      <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>RAG & Web Search</div>
+                    </div>
+                    <div className="arch-agent-card active" style={{ textAlign: "center", padding: "0.75rem" }}>
+                      <div className="agent-title" style={{ color: "var(--primary-purple)", fontSize: "0.85rem" }}>📊 ANALYST</div>
+                      <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>Formula & Risk Matrix</div>
+                    </div>
+                    <div className="arch-agent-card active" style={{ textAlign: "center", padding: "0.75rem" }}>
+                      <div className="agent-title" style={{ color: "var(--accent-emerald)", fontSize: "0.85rem" }}>⚡ EXECUTOR</div>
+                      <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>DB & API Mutations</div>
+                    </div>
+                  </div>
+                  <div style={{ color: "var(--accent-amber)", fontSize: "0.9rem" }}>↓</div>
+
+                  {/* Step 6: REVIEWER */}
+                  <div style={{ background: "rgba(245, 158, 11, 0.15)", border: "1px solid var(--accent-amber)", borderRadius: "10px", padding: "0.75rem 2rem", textAlign: "center", width: "100%", maxWidth: "380px" }}>
+                    <strong style={{ color: "var(--accent-amber)", fontSize: "0.85rem" }}>🛡️ REVIEWER AGENT (Quality & Safety Check)</strong>
+                    <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>Policy & Factuality Verification</div>
+                  </div>
+                  <div style={{ color: "var(--accent-amber)", fontSize: "0.9rem" }}>↓</div>
+
+                  {/* Step 7: DECISION BRANCH (REJECT / APPROVE -> EXECUTE) */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem", width: "100%", maxWidth: "480px" }}>
+                    <div style={{ background: "rgba(244, 63, 94, 0.15)", border: "1px solid var(--accent-rose)", borderRadius: "10px", padding: "0.75rem", textAlign: "center" }}>
+                      <strong style={{ color: "var(--accent-rose)", fontSize: "0.85rem" }}>❌ REJECT</strong>
+                      <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>Re-route or Cancel Task</div>
+                    </div>
+                    <div style={{ background: "rgba(16, 185, 129, 0.15)", border: "1px solid var(--accent-emerald)", borderRadius: "10px", padding: "0.75rem", textAlign: "center" }}>
+                      <strong style={{ color: "var(--accent-emerald)", fontSize: "0.85rem" }}>✅ APPROVE → EXECUTE</strong>
+                      <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>Mutate DB & Deliver Report</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="arch-agent-card">
-                <h4 style={{ color: "#fff", marginBottom: "0.5rem" }}>📄 Document Review & Vendor Audit Workflow</h4>
-                <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>Planner → Doc Agent → Compliance Analyst → Approval Queue</p>
-                <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span className="tool-pill">READY</span>
-                  <button className="btn-deploy-route" onClick={() => { setTask(t.presetTask2); setConsoleOpen(true); }}>{t.presetBtn}</button>
+            </div>
+
+            {/* Existing Active Workflow Pipelines Cards */}
+            <div className="arch-panel">
+              <div className="arch-header">
+                <h3>🔀 Active Workflow Pipelines & Presets</h3>
+                <button className="btn-console" onClick={() => setConsoleOpen(true)}>+ Run Custom Workflow</button>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginTop: "1rem" }}>
+                <div className="arch-agent-card active">
+                  <h4 style={{ color: "#fff", marginBottom: "0.5rem" }}>🛡️ Safety Risk Analysis & Action Pipeline</h4>
+                  <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>Planner → Research (RAG) → Analytic (Risk Index) → Action (DB Ticket)</p>
+                  <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span className="badge-live">ACTIVE</span>
+                    <button className="btn-deploy-route" onClick={() => { setTask(t.presetTask1); setConsoleOpen(true); }}>{t.presetBtn}</button>
+                  </div>
+                </div>
+                <div className="arch-agent-card">
+                  <h4 style={{ color: "#fff", marginBottom: "0.5rem" }}>📄 Document Review & Vendor Audit Workflow</h4>
+                  <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>Planner → Doc Agent → Compliance Analyst → Approval Queue</p>
+                  <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span className="tool-pill">READY</span>
+                    <button className="btn-deploy-route" onClick={() => { setTask(t.presetTask2); setConsoleOpen(true); }}>{t.presetBtn}</button>
+                  </div>
                 </div>
               </div>
             </div>
