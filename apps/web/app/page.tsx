@@ -559,41 +559,119 @@ export default function CommandCenter() {
 
         {/* TAB 3: AGENTS */}
         {activeTab === "agents" && (
-          <div className="arch-panel">
-            <div className="arch-header">
-              <h3>🤖 SaharOps AI Agent Catalog & Tool Registry</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            {/* Visual Enterprise Architecture Blueprint matching ASCII Chart */}
+            <div className="arch-panel">
+              <div className="arch-header">
+                <h3>🏗️ SaharOps AI Enterprise System Architecture (LangGraph + FastAPI)</h3>
+                <span className="badge-live">LIVE SYSTEM MATRIX</span>
+              </div>
+
+              <div style={{ background: "rgba(5, 7, 14, 0.95)", border: "1px solid var(--border-highlight)", borderRadius: "14px", padding: "1.5rem", marginTop: "1rem" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "center" }}>
+                  {/* Layer 1: USER / ADMIN */}
+                  <div style={{ background: "linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(15, 23, 42, 0.9))", border: "1px solid var(--primary)", borderRadius: "10px", padding: "0.75rem 2rem", textCenter: "center", width: "100%", maxWidth: "320px", textAlign: "center" }}>
+                    <strong style={{ color: "#fff", fontSize: "0.9rem" }}>👤 USER / ADMIN</strong>
+                    <div style={{ fontSize: "0.75rem", color: "var(--text-secondary)", marginTop: "0.1rem" }}>Web / Mobile / API Clients</div>
+                  </div>
+                  <div style={{ color: "var(--primary-purple)", fontSize: "1rem" }}>↓</div>
+
+                  {/* Layer 2: API GATEWAY */}
+                  <div style={{ background: "linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(15, 23, 42, 0.9))", border: "1px solid var(--primary-cyan)", borderRadius: "10px", padding: "0.75rem 2rem", textAlign: "center", width: "100%", maxWidth: "320px" }}>
+                    <strong style={{ color: "var(--primary-cyan)", fontSize: "0.9rem" }}>⚡ API GATEWAY (FastAPI)</strong>
+                    <div style={{ fontSize: "0.75rem", color: "var(--text-secondary)", marginTop: "0.1rem" }}>CORS • JWT Security • Tenant Isolation</div>
+                  </div>
+                  <div style={{ color: "var(--primary-cyan)", fontSize: "1rem" }}>↓</div>
+
+                  {/* Layer 3: ORCHESTRATOR ENGINE */}
+                  <div style={{ background: "linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(15, 23, 42, 0.95))", border: "1px solid var(--primary-purple)", borderRadius: "12px", padding: "1rem 2rem", textAlign: "center", width: "100%", maxWidth: "550px", boxShadow: "0 0 20px rgba(139, 92, 246, 0.2)" }}>
+                    <strong style={{ color: "#fff", fontSize: "1rem" }}>🧠 ORCHESTRATOR ENGINE (LangGraph)</strong>
+                    <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginTop: "0.35rem" }}>
+                      Planner → Router → Executor → Reviewer → Finalizer
+                    </div>
+                  </div>
+                  <div style={{ color: "var(--primary-purple)", fontSize: "1rem" }}>↓</div>
+
+                  {/* Layer 4: SUB-AGENTS GRID */}
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem", width: "100%" }}>
+                    <div className="arch-agent-card active" style={{ textAlign: "center" }}>
+                      <div className="agent-title" style={{ color: "var(--primary-cyan)" }}>🔍 RESEARCHER</div>
+                      <div className="agent-subtitle">RAG & Web Context Search</div>
+                    </div>
+                    <div className="arch-agent-card active" style={{ textAlign: "center" }}>
+                      <div className="agent-title" style={{ color: "var(--primary-purple)" }}>📊 ANALYST</div>
+                      <div className="agent-subtitle">Data & Risk Processing</div>
+                    </div>
+                    <div className="arch-agent-card active" style={{ textAlign: "center" }}>
+                      <div className="agent-title" style={{ color: "var(--accent-emerald)" }}>⚡ EXECUTOR</div>
+                      <div className="agent-subtitle">DB & API Mutations</div>
+                    </div>
+                  </div>
+                  <div style={{ color: "var(--accent-emerald)", fontSize: "1rem" }}>↓</div>
+
+                  {/* Layer 5: TOOLS REGISTRY */}
+                  <div style={{ background: "rgba(30, 41, 59, 0.6)", border: "1px solid var(--border-color)", borderRadius: "12px", padding: "1rem", width: "100%", textAlign: "center" }}>
+                    <strong style={{ color: "var(--accent-amber)", fontSize: "0.9rem" }}>🛠️ TOOLS REGISTRY</strong>
+                    <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "0.5rem", marginTop: "0.5rem" }}>
+                      <span className="tool-pill">Web Search</span>
+                      <span className="tool-pill">DB Mutation</span>
+                      <span className="tool-pill">REST API</span>
+                      <span className="tool-pill">Email Notifier</span>
+                      <span className="tool-pill">Files & RAG</span>
+                      <span className="tool-pill">Browser Nav</span>
+                      <span className="tool-pill">Python Code Execution</span>
+                    </div>
+                  </div>
+                  <div style={{ color: "var(--accent-amber)", fontSize: "1rem" }}>↓</div>
+
+                  {/* Layer 6: MEMORY & KNOWLEDGE */}
+                  <div style={{ background: "linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(15, 23, 42, 0.9))", border: "1px solid var(--accent-emerald)", borderRadius: "12px", padding: "1rem", width: "100%", textAlign: "center" }}>
+                    <strong style={{ color: "var(--accent-emerald)", fontSize: "0.9rem" }}>💾 MEMORY & KNOWLEDGE LAYER</strong>
+                    <div style={{ fontSize: "0.78rem", color: "var(--text-secondary)", marginTop: "0.25rem" }}>
+                      PostgreSQL + pgvector (Vector DB) • Redis (Session Cache) • Object Storage
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="arch-agents-grid" style={{ marginTop: "1rem" }}>
-              <div className="arch-agent-card active">
-                <div className="agent-title" style={{ color: "var(--primary)" }}>🧠 Coordinator Agent</div>
-                <div className="agent-subtitle">Routing & Planning Engine</div>
-                <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.5rem" }}>Classifies task intent and routes execution paths across sub-agents.</p>
+
+            {/* Agent Details & Tool Catalog */}
+            <div className="arch-panel">
+              <div className="arch-header">
+                <h3>🤖 Active Agents Catalog</h3>
               </div>
-              <div className="arch-agent-card active">
-                <div className="agent-title" style={{ color: "var(--primary-cyan)" }}>🔍 Research Agent</div>
-                <div className="agent-subtitle">RAG & Web Search</div>
-                <div className="tool-pills">
-                  <span className="tool-pill">search</span>
-                  <span className="tool-pill">retrieve</span>
-                  <span className="tool-pill">summarize</span>
+              <div className="arch-agents-grid" style={{ marginTop: "1rem" }}>
+                <div className="arch-agent-card active">
+                  <div className="agent-title" style={{ color: "var(--primary)" }}>🧠 Coordinator Agent</div>
+                  <div className="agent-subtitle">Routing & Planning Engine</div>
+                  <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.5rem" }}>Classifies task intent and routes execution paths across sub-agents.</p>
                 </div>
-              </div>
-              <div className="arch-agent-card active">
-                <div className="agent-title" style={{ color: "var(--primary-purple)" }}>📊 Analysis Agent</div>
-                <div className="agent-subtitle">Data & Formula Processing</div>
-                <div className="tool-pills">
-                  <span className="tool-pill">calculate</span>
-                  <span className="tool-pill">aggregate</span>
-                  <span className="tool-pill">visualize</span>
+                <div className="arch-agent-card active">
+                  <div className="agent-title" style={{ color: "var(--primary-cyan)" }}>🔍 Research Agent</div>
+                  <div className="agent-subtitle">RAG & Web Search</div>
+                  <div className="tool-pills">
+                    <span className="tool-pill">search</span>
+                    <span className="tool-pill">retrieve</span>
+                    <span className="tool-pill">summarize</span>
+                  </div>
                 </div>
-              </div>
-              <div className="arch-agent-card active">
-                <div className="agent-title" style={{ color: "var(--accent-emerald)" }}>⚡ Action Agent</div>
-                <div className="agent-subtitle">DB & API Mutations</div>
-                <div className="tool-pills">
-                  <span className="tool-pill">create</span>
-                  <span className="tool-pill">update</span>
-                  <span className="tool-pill">delete</span>
+                <div className="arch-agent-card active">
+                  <div className="agent-title" style={{ color: "var(--primary-purple)" }}>📊 Analysis Agent</div>
+                  <div className="agent-subtitle">Data & Formula Processing</div>
+                  <div className="tool-pills">
+                    <span className="tool-pill">calculate</span>
+                    <span className="tool-pill">aggregate</span>
+                    <span className="tool-pill">visualize</span>
+                  </div>
+                </div>
+                <div className="arch-agent-card active">
+                  <div className="agent-title" style={{ color: "var(--accent-emerald)" }}>⚡ Action Agent</div>
+                  <div className="agent-subtitle">DB & API Mutations</div>
+                  <div className="tool-pills">
+                    <span className="tool-pill">create</span>
+                    <span className="tool-pill">update</span>
+                    <span className="tool-pill">delete</span>
+                  </div>
                 </div>
               </div>
             </div>
