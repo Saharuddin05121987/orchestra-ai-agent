@@ -226,10 +226,19 @@ export default function CommandCenter() {
         },
         {
           timestamp: new Date().toLocaleTimeString(),
-          agent: "Research Agent",
-          action: "Execute Tool [search & retrieve]",
-          details: `${researchSearch} ${researchRetrieve}`,
+          agent: "Web Researcher (Parallel Fan-Out 1/2)",
+          action: "Execute Tool [search]",
+          details: researchSearch,
           tool_call: { name: "search", category: "research" },
+          rbac_audit: { allowed: true, reason: `Izin diberikan untuk role '${role}'.`, tenant_id: "tenant-alpha" },
+          duration_ms: 104.2
+        },
+        {
+          timestamp: new Date().toLocaleTimeString(),
+          agent: "RAG Knowledge Researcher (Parallel Fan-Out 2/2)",
+          action: "Execute Tool [retrieve]",
+          details: researchRetrieve,
+          tool_call: { name: "retrieve", category: "research" },
           rbac_audit: { allowed: true, reason: `Izin diberikan untuk role '${role}'.`, tenant_id: "tenant-alpha" },
           duration_ms: 118.5
         },
@@ -639,18 +648,32 @@ export default function CommandCenter() {
                   </div>
                   <div style={{ color: "var(--primary-purple)", fontSize: "0.9rem" }}>↓</div>
 
-                  {/* Step 5: SUB-AGENTS */}
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem", width: "100%" }}>
-                    <div className="arch-agent-card active" style={{ textAlign: "center", padding: "0.75rem" }}>
-                      <div className="agent-title" style={{ color: "var(--primary-cyan)", fontSize: "0.85rem" }}>🔍 RESEARCHER</div>
-                      <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>RAG & Web Search</div>
+                  {/* Step 5: PARALLEL RESEARCHER FAN-OUT */}
+                  <div style={{ background: "rgba(6, 182, 212, 0.08)", border: "1px dashed var(--primary-cyan)", borderRadius: "12px", padding: "1rem", width: "100%" }}>
+                    <div style={{ textAlign: "center", fontSize: "0.75rem", color: "var(--primary-cyan)", fontWeight: 700, marginBottom: "0.5rem" }}>
+                      ⚡ PARALLEL FAN-OUT EXECUTION
                     </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                      <div className="arch-agent-card active" style={{ textAlign: "center", padding: "0.75rem" }}>
+                        <div className="agent-title" style={{ color: "var(--primary-cyan)", fontSize: "0.85rem" }}>🔍 WEB RESEARCHER</div>
+                        <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>Live Web Context Search</div>
+                      </div>
+                      <div className="arch-agent-card active" style={{ textAlign: "center", padding: "0.75rem" }}>
+                        <div className="agent-title" style={{ color: "var(--primary-cyan)", fontSize: "0.85rem" }}>📚 RAG RESEARCHER</div>
+                        <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>Vector DB Retrieval</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ color: "var(--primary-purple)", fontSize: "0.9rem" }}>↓ (Fan-In Aggregation)</div>
+
+                  {/* Step 6: ANALYST & EXECUTOR */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", width: "100%" }}>
                     <div className="arch-agent-card active" style={{ textAlign: "center", padding: "0.75rem" }}>
-                      <div className="agent-title" style={{ color: "var(--primary-purple)", fontSize: "0.85rem" }}>📊 ANALYST</div>
+                      <div className="agent-title" style={{ color: "var(--primary-purple)", fontSize: "0.85rem" }}>📊 ANALYST AI</div>
                       <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>Formula & Risk Matrix</div>
                     </div>
                     <div className="arch-agent-card active" style={{ textAlign: "center", padding: "0.75rem" }}>
-                      <div className="agent-title" style={{ color: "var(--accent-emerald)", fontSize: "0.85rem" }}>⚡ EXECUTOR</div>
+                      <div className="agent-title" style={{ color: "var(--accent-emerald)", fontSize: "0.85rem" }}>⚡ EXECUTOR AI</div>
                       <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>DB & API Mutations</div>
                     </div>
                   </div>
