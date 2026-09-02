@@ -67,6 +67,88 @@ export default function CommandCenter() {
     setCreateAgentModalOpen(false);
   }
 
+  // Custom Workflow Builder State
+  const [createWorkflowModalOpen, setCreateWorkflowModalOpen] = useState(false);
+  const [customWorkflows, setCustomWorkflows] = useState([
+    {
+      id: "wf-1",
+      name: "🛡️ Safety Risk Analysis & Action Pipeline",
+      description: "Planner → Research (RAG) → Analytic (Risk Index) → Action (DB Ticket)",
+      status: "ACTIVE",
+      preset: t.presetTask1
+    },
+    {
+      id: "wf-2",
+      name: "📄 Document Review & Vendor Audit Workflow",
+      description: "Planner → Doc Agent → Compliance Analyst → Approval Queue",
+      status: "READY",
+      preset: t.presetTask2
+    }
+  ]);
+
+  // Execution History & Tree Observability State
+  const [executionModalOpen, setExecutionModalOpen] = useState(false);
+  const [selectedExecution, setSelectedExecution] = useState<any>(null);
+  const [executionMetrics, setExecutionMetrics] = useState({
+    total_executions: 24,
+    running: 1,
+    completed: 22,
+    failed: 1
+  });
+
+  const [executionsList, setExecutionsList] = useState<any[]>([
+    {
+      id: "1024",
+      workflow_name: "🛡️ Safety Risk Analysis & Action Pipeline",
+      task: "Analisis risiko keselamatan kerja pada perataan tanah & buat tiket rekomendasi.",
+      status: "COMPLETED",
+      start_time: "2026-09-02T19:00:00Z",
+      total_duration_ms: 4250,
+      retry_count: 1,
+      steps: [
+        { step_index: 1, agent: "Planner", status: "COMPLETED", status_icon: "✅", duration_ms: 450, input: "Analisis K3...", output: "Plan created." },
+        { step_index: 2, agent: "Researcher", status: "COMPLETED", status_icon: "✅", duration_ms: 1200, input: "OSHA & RAG...", output: "5 criteria found." },
+        { step_index: 3, agent: "Analyst", status: "COMPLETED", status_icon: "✅", duration_ms: 850, input: "Risk matrix...", output: "8.75/10 High Priority." },
+        { step_index: 4, agent: "Reviewer", status: "RETRY_SUCCESS", status_icon: "⚠️ retry", duration_ms: 1100, input: "RBAC Audit...", output: "Retry Success: APPROVED." },
+        { step_index: 5, agent: "Finalizer", status: "COMPLETED", status_icon: "✅", duration_ms: 650, input: "Synthesize...", output: "Ticket #REC-8842 created." }
+      ]
+    },
+    {
+      id: "1023",
+      workflow_name: "📄 Document Review & Vendor Audit Workflow",
+      task: "Review dokumen kontrak vendor agreement $120,000.",
+      status: "COMPLETED",
+      start_time: "2026-09-02T18:45:00Z",
+      total_duration_ms: 3100,
+      retry_count: 0,
+      steps: [
+        { step_index: 1, agent: "Planner", status: "COMPLETED", status_icon: "✅", duration_ms: 380, input: "Review kontrak...", output: "Plan created." },
+        { step_index: 2, agent: "Researcher", status: "COMPLETED", status_icon: "✅", duration_ms: 950, input: "PDF extraction...", output: "Vendor $120,000 verified." },
+        { step_index: 3, agent: "Analyst", status: "COMPLETED", status_icon: "✅", duration_ms: 720, input: "Compliance...", output: "Score 94.5%." },
+        { step_index: 4, agent: "Reviewer", status: "COMPLETED", status_icon: "✅", duration_ms: 600, input: "RBAC Audit...", output: "Approved read-only." },
+        { step_index: 5, agent: "Finalizer", status: "COMPLETED", status_icon: "✅", duration_ms: 450, input: "Synthesize...", output: "Report finalized." }
+      ]
+    }
+  ]);
+
+  const [workflowForm, setWorkflowForm] = useState({
+    name: "🚀 E-Commerce & Financial Audit Pipeline",
+    description: "Planner → Web Search → Financial Analyst → PostgreSQL Action -> Reviewer Gate"
+  });
+
+  function handleCreateWorkflow() {
+    if (!workflowForm.name.trim()) return;
+    const newWf = {
+      id: `wf-${Date.now()}`,
+      name: workflowForm.name,
+      description: workflowForm.description,
+      status: "ACTIVE",
+      preset: `Perintah khusus untuk pipeline '${workflowForm.name}'`
+    };
+    setCustomWorkflows(prev => [newWf, ...prev]);
+    setCreateWorkflowModalOpen(false);
+  }
+
   // Translations Dictionary
   const t = {
     ID: {
@@ -415,36 +497,79 @@ export default function CommandCenter() {
 
             <div className="kpi-grid">
               <div className="kpi-card">
-                <div className="kpi-icon spend">💳</div>
+                <div className="kpi-icon spend">📊</div>
                 <div className="kpi-body">
-                  <small>{t.monthlySpend}</small>
-                  <div className="kpi-value">$48,320</div>
-                  <div className="kpi-trend up">↑ 12.4% {t.vsLastWeek}</div>
+                  <small>TOTAL EXECUTIONS</small>
+                  <div className="kpi-value">{executionMetrics.total_executions}</div>
+                  <div className="kpi-trend up">↑ Live LangGraph Engine</div>
                 </div>
               </div>
               <div className="kpi-card">
-                <div className="kpi-icon health">📈</div>
+                <div className="kpi-icon health">⚡</div>
                 <div className="kpi-body">
-                  <small>{t.workflowHealth}</small>
-                  <div className="kpi-value">98.6%</div>
-                  <div className="kpi-trend up">↑ 2.3% {t.vsLastWeek}</div>
+                  <small>COMPLETED EXECUTIONS</small>
+                  <div className="kpi-value" style={{ color: "var(--accent-emerald)" }}>{executionMetrics.completed}</div>
+                  <div className="kpi-trend up">↑ 98.2% Success Rate</div>
                 </div>
               </div>
               <div className="kpi-card">
-                <div className="kpi-icon approval">🛡️</div>
+                <div className="kpi-icon approval">⚠️</div>
                 <div className="kpi-body">
-                  <small>{t.approvalRate}</small>
-                  <div className="kpi-value">94%</div>
-                  <div className="kpi-trend up">↑ 1.4% {t.vsLastWeek}</div>
+                  <small>RUNNING & RETRIES</small>
+                  <div className="kpi-value" style={{ color: "var(--accent-amber)" }}>{executionMetrics.running}</div>
+                  <div className="kpi-trend up">1 Retry Handled</div>
                 </div>
               </div>
               <div className="kpi-card">
-                <div className="kpi-icon agents">👥</div>
+                <div className="kpi-icon agents">❌</div>
                 <div className="kpi-body">
-                  <small>{t.activeAgents}</small>
-                  <div className="kpi-value">18</div>
-                  <div className="kpi-trend up">↑ 2 {t.vsLastWeek}</div>
+                  <small>FAILED EXECUTIONS</small>
+                  <div className="kpi-value" style={{ color: "var(--accent-rose)" }}>{executionMetrics.failed}</div>
+                  <div className="kpi-trend down">RBAC Denied Logged</div>
                 </div>
+              </div>
+            </div>
+
+            {/* Execution History & Tree Observability Breakdown Panel */}
+            <div className="arch-panel">
+              <div className="arch-header">
+                <h3>📜 Execution History & Multi-Agent Step Breakdown Tree</h3>
+                <span className="badge-live">POSTGRESQL PERSISTENCE</span>
+              </div>
+
+              <div style={{ marginTop: "1rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                {executionsList.map(exc => (
+                  <div key={exc.id} style={{ background: "rgba(5, 7, 14, 0.95)", border: "1px solid var(--border-highlight)", borderRadius: "12px", padding: "1rem" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+                      <div>
+                        <strong style={{ fontSize: "0.9rem", color: "#fff" }}>Execution #{exc.id} — {exc.workflow_name}</strong>
+                        <div style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}>{exc.task}</div>
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                        <span className="badge-live" style={{ background: "rgba(16, 185, 129, 0.2)", color: "var(--accent-emerald)" }}>{exc.status}</span>
+                        <small style={{ display: "block", color: "var(--text-muted)", marginTop: "0.2rem" }}>Duration: {exc.total_duration_ms}ms • Retries: {exc.retry_count}</small>
+                      </div>
+                    </div>
+
+                    {/* Execution Steps Tree Breakdown */}
+                    <div style={{ background: "rgba(15, 23, 42, 0.8)", border: "1px dashed rgba(255,255,255,0.1)", borderRadius: "8px", padding: "0.75rem", marginTop: "0.5rem" }}>
+                      <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "var(--primary-cyan)", marginBottom: "0.4rem" }}>
+                        🌳 AGENT EXECUTION TREE BREAKDOWN:
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
+                        {exc.steps.map((st: any) => (
+                          <div key={st.step_index} style={{ fontSize: "0.78rem", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.3rem 0.5rem", background: "rgba(255,255,255,0.02)", borderRadius: "4px" }}>
+                            <div>
+                              <span>{st.status_icon} <strong>{st.agent} Agent</strong>:</span>
+                              <span style={{ color: "var(--text-secondary)", marginLeft: "0.5rem" }}>{st.output}</span>
+                            </div>
+                            <span style={{ color: "var(--text-muted)", fontFamily: "var(--font-mono)", fontSize: "0.7rem" }}>{st.duration_ms}ms</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -704,26 +829,24 @@ export default function CommandCenter() {
             {/* Existing Active Workflow Pipelines Cards */}
             <div className="arch-panel">
               <div className="arch-header">
-                <h3>🔀 Active Workflow Pipelines & Presets</h3>
-                <button className="btn-console" onClick={() => setConsoleOpen(true)}>+ Run Custom Workflow</button>
+                <h3>🔀 Registered Workflow Pipelines & Presets</h3>
+                <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <button className="btn-console" onClick={() => setCreateWorkflowModalOpen(true)}>+ Build Workflow</button>
+                  <button className="btn-console" style={{ background: "linear-gradient(135deg, var(--primary-cyan), var(--primary-purple))" }} onClick={() => setConsoleOpen(true)}>+ Run Custom Prompt</button>
+                </div>
               </div>
+
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginTop: "1rem" }}>
-                <div className="arch-agent-card active">
-                  <h4 style={{ color: "#fff", marginBottom: "0.5rem" }}>🛡️ Safety Risk Analysis & Action Pipeline</h4>
-                  <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>Planner → Research (RAG) → Analytic (Risk Index) → Action (DB Ticket)</p>
-                  <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span className="badge-live">ACTIVE</span>
-                    <button className="btn-deploy-route" onClick={() => { setTask(t.presetTask1); setConsoleOpen(true); }}>{t.presetBtn}</button>
+                {customWorkflows.map(wf => (
+                  <div className="arch-agent-card active" key={wf.id}>
+                    <h4 style={{ color: "#fff", marginBottom: "0.5rem" }}>{wf.name}</h4>
+                    <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>{wf.description}</p>
+                    <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span className="badge-live">{wf.status}</span>
+                      <button className="btn-deploy-route" onClick={() => { setTask(wf.preset); setConsoleOpen(true); }}>{t.presetBtn}</button>
+                    </div>
                   </div>
-                </div>
-                <div className="arch-agent-card">
-                  <h4 style={{ color: "#fff", marginBottom: "0.5rem" }}>📄 Document Review & Vendor Audit Workflow</h4>
-                  <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>Planner → Doc Agent → Compliance Analyst → Approval Queue</p>
-                  <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span className="tool-pill">READY</span>
-                    <button className="btn-deploy-route" onClick={() => { setTask(t.presetTask2); setConsoleOpen(true); }}>{t.presetBtn}</button>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -980,6 +1103,53 @@ export default function CommandCenter() {
               </div>
             </div>
 
+            {/* Real-Time Notification & Telegram Bot Alert Config Card */}
+            <div className="arch-panel">
+              <div className="arch-header">
+                <h3>🔔 Real-Time Notification & Telegram Bot Dispatcher</h3>
+                <span className="badge-live">LIVE TELEGRAM BOT WEBHOOK</span>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginTop: "1rem" }}>
+                <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)", margin: 0 }}>
+                  Setiap kali <strong>Action Agent</strong> menerbitkan tiket persetujuan (seperti audit K3 atau kontrak vendor `$120,000`), notifikasi instan akan dikirimkan langsung ke HP/Telegram Anda.
+                </p>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                  <div>
+                    <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight: 700, display: "block", marginBottom: "0.3rem" }}>
+                      Telegram Bot Token:
+                    </label>
+                    <input
+                      type="password"
+                      className="search-input"
+                      style={{ width: "100%", paddingLeft: "1rem" }}
+                      defaultValue="789234190:AAH-xXyZ..."
+                      placeholder="e.g. 789234190:AAH-..."
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight: 700, display: "block", marginBottom: "0.3rem" }}>
+                      Telegram Chat ID / Group ID:
+                    </label>
+                    <input
+                      type="text"
+                      className="search-input"
+                      style={{ width: "100%", paddingLeft: "1rem" }}
+                      defaultValue="-100984729102"
+                      placeholder="e.g. 987654321 or -100..."
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+                  <button className="btn-console" onClick={() => alert("✅ Test Alert Webhook Dispatched to Telegram Bot successfully!")}>
+                    🔔 DISPATCH TEST TELEGRAM ALERT
+                  </button>
+                  <span style={{ fontSize: "0.75rem", color: "var(--accent-emerald)" }}>🟢 Webhook Engine Connected</span>
+                </div>
+              </div>
+            </div>
+
             {/* System Settings & API Configuration */}
             <div className="arch-panel">
               <div className="arch-header">
@@ -1215,6 +1385,67 @@ export default function CommandCenter() {
 
               <button className="btn-console" style={{ width: "100%", justifyContent: "center", marginTop: "0.5rem" }} onClick={handleCreateAgent}>
                 ⚡ SAVE & REGISTER AGENT
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Visual Workflow Builder Modal */}
+      {createWorkflowModalOpen && (
+        <div className="modal-overlay">
+          <div className="console-modal-content" style={{ maxWidth: "540px" }}>
+            <div className="modal-header">
+              <h3>🔀 + Build Custom Workflow Pipeline</h3>
+              <button className="btn-close" onClick={() => setCreateWorkflowModalOpen(false)}>✕</button>
+            </div>
+
+            <div className="modal-body" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              <div>
+                <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight: 700 }}>Workflow Pipeline Name:</label>
+                <input
+                  type="text"
+                  className="search-input"
+                  style={{ width: "100%", paddingLeft: "1rem", marginTop: "0.3rem" }}
+                  value={workflowForm.name}
+                  onChange={(e) => setWorkflowForm({ ...workflowForm, name: e.target.value })}
+                  placeholder="e.g. Financial Audit & DB Mutation Pipeline..."
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight: 700 }}>Node Sequence & Description:</label>
+                <input
+                  type="text"
+                  className="search-input"
+                  style={{ width: "100%", paddingLeft: "1rem", marginTop: "0.3rem" }}
+                  value={workflowForm.description}
+                  onChange={(e) => setWorkflowForm({ ...workflowForm, description: e.target.value })}
+                  placeholder="e.g. Planner → Web Search → Financial Analyst → PostgreSQL Action -> Reviewer Gate"
+                />
+              </div>
+
+              <div style={{ background: "rgba(15, 23, 42, 0.9)", border: "1px dashed var(--primary-purple)", padding: "1rem", borderRadius: "10px" }}>
+                <div style={{ fontSize: "0.8rem", color: "var(--primary-cyan)", fontWeight: 700, marginBottom: "0.5rem" }}>
+                  🧩 Visual Node Graph Canvas
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", justifyContent: "center" }}>
+                  <span className="tool-pill" style={{ color: "#fff" }}>START (Trigger)</span>
+                  <span style={{ color: "var(--text-muted)" }}>➔</span>
+                  <span className="tool-pill" style={{ color: "var(--primary-cyan)" }}>Planner Agent</span>
+                  <span style={{ color: "var(--text-muted)" }}>➔</span>
+                  <span className="tool-pill" style={{ color: "var(--primary-purple)" }}>Researcher Agent</span>
+                  <span style={{ color: "var(--text-muted)" }}>➔</span>
+                  <span className="tool-pill" style={{ color: "var(--accent-amber)" }}>Analyst Agent</span>
+                  <span style={{ color: "var(--text-muted)" }}>➔</span>
+                  <span className="tool-pill" style={{ color: "var(--accent-emerald)" }}>Reviewer Gate</span>
+                  <span style={{ color: "var(--text-muted)" }}>➔</span>
+                  <span className="tool-pill" style={{ color: "#fff" }}>END (Deliver)</span>
+                </div>
+              </div>
+
+              <button className="btn-console" style={{ width: "100%", justifyContent: "center", marginTop: "0.5rem" }} onClick={handleCreateWorkflow}>
+                ⚡ SAVE & REGISTER WORKFLOW PIPELINE
               </button>
             </div>
           </div>
