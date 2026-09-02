@@ -945,38 +945,74 @@ export default function CommandCenter() {
           </div>
         )}
 
-        {/* TAB 6: SETTINGS */}
+        {/* TAB 6: SETTINGS & KNOWLEDGE BASE */}
         {activeTab === "settings" && (
-          <div className="arch-panel">
-            <div className="arch-header">
-              <h3>⚙️ System Settings & Backend API Configuration</h3>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginTop: "1rem" }}>
-              <div>
-                <label style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "0.5rem" }}>
-                  FastAPI Backend Endpoint URL:
-                </label>
-                <input
-                  type="text"
-                  className="search-input"
-                  style={{ width: "100%", paddingLeft: "1rem" }}
-                  value={apiUrl}
-                  onChange={(e) => setApiUrl(e.target.value)}
-                  placeholder="https://orchestra-api-production.up.railway.app"
-                />
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            {/* Multi-Format RAG Document Ingestion Engine */}
+            <div className="arch-panel">
+              <div className="arch-header">
+                <h3>📚 RAG Vector Knowledge Base & Multi-Format Document Ingestion</h3>
+                <span className="badge-live">SUPPORTED: PDF, DOCX, XLSX, CSV, TXT</span>
               </div>
 
-              <div>
-                <label style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "0.5rem" }}>
-                  Default Tenant Isolation ID:
-                </label>
-                <input
-                  type="text"
-                  className="search-input"
-                  style={{ width: "100%", paddingLeft: "1rem" }}
-                  defaultValue="tenant-alpha"
-                  readOnly
-                />
+              <div style={{ marginTop: "1rem", background: "rgba(5, 7, 14, 0.95)", border: "1px dashed var(--primary-cyan)", borderRadius: "14px", padding: "1.5rem", textAlign: "center" }}>
+                <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>📄 📝 📊 📈 📑</div>
+                <h4 style={{ color: "#fff", marginBottom: "0.25rem" }}>Multi-Format Document Vector Ingestion Engine</h4>
+                <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)", maxWidth: "520px", margin: "0 auto 1rem" }}>
+                  Unggah file dokumen untuk di-chunk dan di-embed ke dalam Database Vektor RAG (pgvector 1536-dimensi).
+                </p>
+
+                <div style={{ display: "flex", justifyContent: "center", gap: "0.75rem", flexWrap: "wrap", marginBottom: "1.25rem" }}>
+                  <span className="tool-pill" style={{ border: "1px solid #f43f5e", color: "#f43f5e" }}>📄 .PDF (Adobe PDF)</span>
+                  <span className="tool-pill" style={{ border: "1px solid #3b82f6", color: "#3b82f6" }}>📝 .DOCX (MS Word)</span>
+                  <span className="tool-pill" style={{ border: "1px solid #10b981", color: "#10b981" }}>📊 .XLSX (MS Excel)</span>
+                  <span className="tool-pill" style={{ border: "1px solid #f59e0b", color: "#f59e0b" }}>📈 .CSV (Tabular Data)</span>
+                  <span className="tool-pill" style={{ border: "1px solid #a855f7", color: "#a855f7" }}>📑 .TXT (Plain Text)</span>
+                </div>
+
+                <div style={{ border: "2px dashed rgba(255,255,255,0.15)", borderRadius: "10px", padding: "2rem 1rem", background: "rgba(30,41,59,0.4)", cursor: "pointer" }}>
+                  <div style={{ fontSize: "0.9rem", color: "var(--primary-cyan)", fontWeight: 700 }}>
+                    Click or Drag & Drop Documents Here to Upload & Index Vector RAG
+                  </div>
+                  <small style={{ color: "var(--text-muted)", marginTop: "0.3rem", display: "block" }}>
+                    Supports single or batch upload up to 50MB per file
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            {/* System Settings & API Configuration */}
+            <div className="arch-panel">
+              <div className="arch-header">
+                <h3>⚙️ System Settings & Backend API Configuration</h3>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginTop: "1rem" }}>
+                <div>
+                  <label style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "0.5rem" }}>
+                    FastAPI Backend Endpoint URL:
+                  </label>
+                  <input
+                    type="text"
+                    className="search-input"
+                    style={{ width: "100%", paddingLeft: "1rem" }}
+                    value={apiUrl}
+                    onChange={(e) => setApiUrl(e.target.value)}
+                    placeholder="https://orchestra-api-production.up.railway.app"
+                  />
+                </div>
+
+                <div>
+                  <label style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "0.5rem" }}>
+                    Default Tenant Isolation ID:
+                  </label>
+                  <input
+                    type="text"
+                    className="search-input"
+                    style={{ width: "100%", paddingLeft: "1rem" }}
+                    defaultValue="tenant-alpha"
+                    readOnly
+                  />
+                </div>
               </div>
             </div>
           </div>
